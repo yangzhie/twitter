@@ -12,85 +12,86 @@
         </div>
          
         <div class="mt-2 space-y-3">
-        <SidebarLeftTab active>
-            <template v-slot:icon>
-                <AnFilledHome class="text-2xl" />
-            </template>
+            <SidebarLeftTab active>
+                <!-- inserts content from parent, notice <template> is used -->
+                <template v-slot:icon>
+                    <AnFilledHome class="text-2xl" />
+                </template>
 
-            <template v-slot:name>
-                Home
-            </template>
-        </SidebarLeftTab>
+                <template v-slot:name>
+                    Home
+                </template>
+            </SidebarLeftTab>
 
-        <SidebarLeftTab>
-            <template v-slot:icon>
-                <AkHashtag class="text-2xl" />
-            </template>
+            <SidebarLeftTab>
+                <template v-slot:icon>
+                    <AkHashtag class="text-2xl" />
+                </template>
 
-            <template v-slot:name>
-                Explore
-            </template>
-        </SidebarLeftTab>
+                <template v-slot:name>
+                    Explore
+                </template>
+            </SidebarLeftTab>
        
-        <SidebarLeftTab>
-            <template v-slot:icon>
-                <CaNotification class="text-2xl" />
-            </template>
+            <SidebarLeftTab>
+                <template v-slot:icon>
+                    <CaNotification class="text-2xl" />
+                </template>
 
-            <template v-slot:name>
-                Notifications
-            </template>
-        </SidebarLeftTab>
+                <template v-slot:name>
+                    Notifications
+                </template>
+            </SidebarLeftTab>
        
-         <SidebarLeftTab>
-            <template v-slot:icon>
-                <FlFilledMail class="text-2xl" />
-            </template>
+            <SidebarLeftTab>
+                <template v-slot:icon>
+                    <FlFilledMail class="text-2xl" />
+                </template>
 
-            <template v-slot:name>
-                Messages
-            </template>
-        </SidebarLeftTab>
+                <template v-slot:name>
+                    Messages
+                </template>
+            </SidebarLeftTab>
        
-        <SidebarLeftTab>
-            <template v-slot:icon>
-                <BsBookmarksFill class="text-2xl" />
-            </template>
+            <SidebarLeftTab>
+                <template v-slot:icon>
+                    <BsBookmarksFill class="text-2xl" />
+                </template>
 
-            <template v-slot:name>
-                Bookmarks
-            </template>
-        </SidebarLeftTab>      
+                <template v-slot:name>
+                    Bookmarks
+                </template>
+            </SidebarLeftTab>      
         
-        <SidebarLeftTab>
-            <template v-slot:icon>
-                <FlFilledDocumentBulletList class="text-2xl" />
-            </template>
+            <SidebarLeftTab>
+                <template v-slot:icon>
+                    <FlFilledDocumentBulletList class="text-2xl" />
+                </template>
 
-            <template v-slot:name>
-                Lists
-            </template>
-        </SidebarLeftTab>   
+                <template v-slot:name>
+                    Lists
+                </template>
+            </SidebarLeftTab>   
         
-        <SidebarLeftTab>
-            <template v-slot:icon>
-                <AkPerson class="text-2xl" />
-            </template>
+            <SidebarLeftTab>
+                <template v-slot:icon>
+                    <AkPerson class="text-2xl" />
+                </template>
 
-            <template v-slot:name>
-                Profile
-            </template>
-        </SidebarLeftTab>       
+                <template v-slot:name>
+                    Profile
+                </template>
+            </SidebarLeftTab>       
         
-        <SidebarLeftTab>
-            <template v-slot:icon>
-                <AnFilledMessage class="text-2xl" />
-            </template>
+            <SidebarLeftTab>
+                <template v-slot:icon>
+                    <AnFilledMessage class="text-2xl" />
+                </template>
 
-            <template v-slot:name>
-                More
-            </template>
-        </SidebarLeftTab>        
+                <template v-slot:name>
+                    More
+                </template>
+            </SidebarLeftTab>        
         </div>
      </div>
 </template>

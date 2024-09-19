@@ -1,0 +1,19 @@
+generator client {
+  provider        = "prisma-client-js"
+}
+
+datasource db {
+  provider             = "mongodb"
+  url                  = env("DB_URI")
+}
+
+model User {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  email        String   @unique // email should ideally be unique
+  name         String?  // Optional field for the name
+  username     String   @unique // Ensure usernames are unique
+  password     String
+  profileImage String?  // Optional field for the profile image
+  createdAt    DateTime @default(now()) // Automatically sets the current date/time on creation
+  updatedAt    DateTime @updatedAt // Automatically updates the timestamp on record updates
+}
