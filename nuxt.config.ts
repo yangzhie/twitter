@@ -11,6 +11,6 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     ACCESSTOKEN: process.env.ACCESSTOKEN,
-    // REFRESHTOKEN: process.env.REFRESHTOKEN
+    REFRESHTOKEN: process.env.REFRESHTOKEN
   }
 })

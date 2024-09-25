@@ -8,12 +8,26 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  email        String   @unique // email should ideally be unique
-  name         String?  // Optional field for the name
-  username     String   @unique // Ensure usernames are unique
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  email        String
+  name         String?
+  username     String  @unique
   password     String
-  profileImage String?  // Optional field for the profile image
-  createdAt    DateTime @default(now()) // Automatically sets the current date/time on creation
-  updatedAt    DateTime @updatedAt // Automatically updates the timestamp on record updates
+  profileImage String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Refresh token
+  refreshToken RefreshToken[]
+}
+model RefreshToken {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  token String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
 }

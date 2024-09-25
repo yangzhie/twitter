@@ -1,3 +1,5 @@
+import * as jwt_decode from "jwt-decode";
+
 export default () => {
     const useAuthToken = () => useState('auth_token')
     const useAuthUser = () => useState('auth_user')
@@ -7,7 +9,7 @@ export default () => {
         const authToken = useAuthToken()
         authToken.value = newToken
     }
-    
+
     const setUser = (newUser) => {
         const authUser = useAuthUser()
         authUser.value = newUser
@@ -18,18 +20,17 @@ export default () => {
         authLoading.value = value
     }
 
-    const login = ({username, password}) => {
+    const login = ({ username, password }) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await $fetch("/api/auth/login", {
+                const data = await $fetch('/api/auth/login', {
                     method: 'POST',
                     body: {
                         username,
                         password
                     }
                 })
-                
-                // only in memory, not globally
+
                 setToken(data.access_token)
                 setUser(data.user)
 
@@ -40,10 +41,23 @@ export default () => {
         })
     }
 
+    const refreshToken = () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const data = await $fetch('/api/auth/refresh')
+
+                setToken(data.access_token)
+                resolve(true)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
     const getUser = () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const data = await useFetchAPI('api/auth/user')
+                const data = await useFetchAPI('/api/auth/user')
 
                 setUser(data.user)
                 resolve(true)
@@ -53,13 +67,35 @@ export default () => {
         })
     }
 
+    const refreshRefreshAccessToken = () => {
+        const authToken = useAuthToken()
+
+        if (!authToken.value) {
+            return
+        }
+
+        const jwt = jwt_decode(authToken.value)
+
+        const newRefreshTime = jwt.exp - 60000
+
+        setTimeout(async () => {
+            await refreshToken()
+            refreshRefreshAccessToken()
+        }, newRefreshTime);
+    }
+
     const initAuth = () => {
         return new Promise(async (resolve, reject) => {
             setIsAuthLoading(true)
             try {
+                await refreshToken()
                 await getUser()
+
+                refreshRefreshAccessToken()
+
                 resolve(true)
             } catch (error) {
+                console.log(error)
                 reject(error)
             } finally {
                 setIsAuthLoading(false)
@@ -67,12 +103,11 @@ export default () => {
         })
     }
 
-    // exposing
     return {
         login,
         useAuthUser,
         useAuthToken,
         initAuth,
-        useAuthLoading
+        useAuthLoading,
     }
 }

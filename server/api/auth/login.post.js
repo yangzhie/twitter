@@ -1,6 +1,7 @@
 import { sendError } from "h3"
 import { getUserByUsername } from "~/server/db/users"
-import { genTokens } from "~/server/utils/jwt"
+import { genTokens, sendRefreshToken } from "~/server/utils/jwt"
+import { createRefreshToken } from "../../db/refreshTokens.js"
 import bcrypt from "bcrypt"
 
 export default defineEventHandler(async (event) => {
@@ -20,13 +21,28 @@ export default defineEventHandler(async (event) => {
     }
 
     // compare passwords
-    const doesPasswordMatch = await bcrypt.compare(password, user.password)
+    const doesThePasswordMatch = await bcrypt.compare(password, user.password)
+
+    if (!doesThePasswordMatch) {
+        return sendError(event, createError({
+            statusCode: 400,
+            statusMessage: 'Username or password is invalid'
+        }))
+    }
 
     // generate access + refresh tokens
-    const { accessToken } = genTokens(user)
+    const { accessToken, refreshToken } = genTokens(user)
+
+    await createRefreshToken({
+        token: refreshToken,
+        userId: user.id
+    })
+
+    sendRefreshToken(event, refreshToken)
 
     return {
         accessToken,
+        refreshToken,
         user
     }
 })
