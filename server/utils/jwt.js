@@ -22,3 +22,14 @@ export const genTokens = (user) => {
 
     return { accessToken: accessToken, }
 }
+
+export const decodeAccessToken = (token) => {
+    const config = useRuntimeConfig()
+
+    try {
+        return jwt.verify(token, config.ACCESSTOKEN)
+    } catch (error) {
+        console.error("Token verification failed:", error);
+        return null;
+    }
+}
