@@ -4,8 +4,10 @@ import { sendError } from "h3"
 import { getUserById } from "../db/users"
 
 export default defineEventHandler(async (event) => {
+    // What endpoints can use auth
     const endpoints = [
-        '/api/auth/user'
+        '/api/auth/user',
+        '/api/user/tweets'
     ]
 
     const isHandledByThisMiddleware = endpoints.some(endpoint => {
