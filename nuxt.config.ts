@@ -11,6 +11,9 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     ACCESSTOKEN: process.env.ACCESSTOKEN,
-    REFRESHTOKEN: process.env.REFRESHTOKEN
+    REFRESHTOKEN: process.env.REFRESHTOKEN,
+    cloudinaryCloudName: process.env.cloudinaryCloudName,
+    cloudinaryAPIKey: process.env.cloudinaryAPIKey,
+    cloudinaryAPISecret: process.env.cloudinaryAPISecret,
   }
 })
