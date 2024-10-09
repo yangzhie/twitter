@@ -2,7 +2,9 @@
     <div>
         <!-- here, :loading is dynamic, allowing the value to change or be computed -->
         <MainSection title="Home" :loading="loading">
-            {{ user }}
+            <!-- {{ user }} -->
+
+            <TweetForm :user="user" />
         </MainSection>
     </div>
 </template>
