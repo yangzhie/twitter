@@ -30,22 +30,21 @@ export default defineEventHandler(async (event) => {
     // Bug fixed after eons!!
     // Looks like it was just not very accepting of Object.keys
     const fileArray = files["file"];
-    const file = fileArray[0];
-    const filePath = file.filepath
+    if (fileArray && Array.isArray(fileArray) && fileArray.length > 0) {
+        const file = fileArray[0];
+        const filePath = file.filepath;
 
-    const filePromises = async () => {
-        const cloudinaryRes = await upload(filePath)
+        // Handle file upload
+        const cloudinaryRes = await upload(filePath);
 
-        return createMediaFiles({
+        await createMediaFiles({
             url: cloudinaryRes.secure_url,
             providerPublicId: cloudinaryRes.public_id,
             userId: userId,
-            tweetId: tweet.id
-        })
+            tweetId: tweet.id,
+        });
     }
-
-    filePromises()
-
+    
     return {
         tweet
     }
