@@ -5,11 +5,9 @@ export default () => {
 
         form.append('text', formData.text)
 
-        if (formData.mediaFiles && formData.mediaFiles.length > 0) {
-            formData.mediaFiles.forEach((mediaFile, index) => {
-                form.append(`media_file_${index}`, mediaFile);
-            });
-        }
+        formData.mediaFiles.forEach((mediaFile, index) => {
+            form.append(`media_file_${index}`, mediaFile);
+        });
 
         return useFetchAPI('/api/user/tweets', {
             method: 'POST',

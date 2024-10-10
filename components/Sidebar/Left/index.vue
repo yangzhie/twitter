@@ -91,12 +91,28 @@
                 <template v-slot:name>
                     More
                 </template>
-            </SidebarLeftTab>        
+            </SidebarLeftTab>
+            
+            <div class="hidden xl:block">
+                <UIButton liquid size="lg">
+                    <strong>
+                        Tweet
+                    </strong>
+                </UIButton>
+            </div>
+
+            <div class="block xl:hidden">
+                <UIButton>
+                    <div class="w-8 h-6 font-bold">
+                        <AkPencil/>
+                    </div>
+                </UIButton>
+            </div>
         </div>
      </div>
 </template>
 
 <script setup>
-    import { AkHashtag, AkPerson, AnFilledHome, AnFilledMessage, BsBookmarksFill, CaNotification, FlFilledDocumentBulletList, FlFilledMail } from '@kalimahapps/vue-icons';
+    import { AkPencil, AkHashtag, AkPerson, AnFilledHome, AnFilledMessage, BsBookmarksFill, CaNotification, FlFilledDocumentBulletList, FlFilledMail } from '@kalimahapps/vue-icons';
     const { defaultTransition } = useTailwindConfig()
 </script>
