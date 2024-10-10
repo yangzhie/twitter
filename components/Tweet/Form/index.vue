@@ -5,6 +5,8 @@
 </template>
 
 <script setup>
+const { postTweet } = useTweets()
+
 const props = defineProps({
     user: {
         type: Object,
@@ -12,7 +14,12 @@ const props = defineProps({
     }
 })
 
-const handleFormSubmit = (data) => {
-    console.log(data)
+const handleFormSubmit = async (data) => {
+    try {
+        const response = await postTweet(data)
+        console.log(response)
+    } catch (error) {
+        console.log(error)
+    }
 }
 </script>
