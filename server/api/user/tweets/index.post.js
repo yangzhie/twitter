@@ -26,6 +26,11 @@ export default defineEventHandler(async (event) => {
     }
     
     const tweet = await createTweet(tweetData)
+
+    const replyTo = fields.replyTo
+    if (replyTo && replyTo !== "null") {
+        tweetData.replyToId = replyTo
+    }
     
     // Bug fixed after eons!!
     // Looks like it was just not very accepting of Object.keys

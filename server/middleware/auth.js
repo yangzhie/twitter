@@ -7,7 +7,8 @@ export default defineEventHandler(async (event) => {
     // What endpoints can use auth
     const endpoints = [
         '/api/auth/user',
-        '/api/user/tweets'
+        '/api/user/tweets',
+        '/api/tweets'
     ]
 
     const isHandledByThisMiddleware = endpoints.some(endpoint => {
