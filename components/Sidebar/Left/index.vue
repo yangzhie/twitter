@@ -103,8 +103,8 @@
 
             <div class="block xl:hidden">
                 <UIButton>
-                    <div class="w-8 h-6 font-bold">
-                        <AkPencil/>
+                    <div class="w-8 h-6 font-bold flex justify-center">
+                        <AkPencil class="text-2xl" />
                     </div>
                 </UIButton>
             </div>
