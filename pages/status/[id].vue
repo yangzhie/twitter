@@ -4,11 +4,41 @@
             <Head>
                 <Title></Title>
             </Head>
+
+            <TweetDetails :user="user" :tweet="tweet" />
         </MainSection>
     </div>
 </template>
 
 <script setup>
 const loading = ref(false)
+const tweet = ref(null)
+const { getTweetById } = useTweets()
 
+const { useAuthUser } = useAuth()
+const user = useAuthUser()
+
+// Watches when a reply to a tweet is posted and redirects
+watch(() => useRoute().fullPath, () => getTweet())
+
+// Is not a computed property
+const getTweetIdFromRoute = () => {
+    return useRoute().params.id
+}
+
+const getTweet = async () => {
+    loading.value = true
+    try {
+        const response = await getTweetById(getTweetIdFromRoute())
+        tweet.value = response.tweet
+    } catch (error) {
+        console.log(error)
+    } finally {
+        loading.value = false
+    }
+}
+
+onBeforeMount(() => {
+    getTweet()
+})
 </script>
