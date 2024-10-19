@@ -15,16 +15,17 @@
 <script setup>
 const { getHomeTweets } = useTweets()
 
+
 const loading = ref(false)
 const searchTweets = ref([])
-const searchQuery = useRoute().query.q
 
-const fetchTweets = async () => {
+const route = useRoute()
+const router = useRouter()
+
+const fetchTweets = async (query) => {
     loading.value = true
     try {
-        const { tweets } = await getHomeTweets({
-            query: searchQuery
-        })
+        const { tweets } = await getHomeTweets({ query })
         searchTweets.value = tweets
     } catch (error) {
         console.log(error)
@@ -33,5 +34,20 @@ const fetchTweets = async () => {
     }
 }
 
-onBeforeMount(fetchTweets)
+// Watch for changes in the query parameter
+watch(() => route.query.q, (newQuery) => {
+    if (newQuery) {
+        fetchTweets(newQuery) // Fetch tweets when the query changes
+    } else {
+        searchTweets.value = [] // Clear tweets if there's no query
+    }
+})
+
+// Fetch initial tweets on mount if there's a query
+onBeforeMount(() => {
+    const initialQuery = route.query.q
+    if (initialQuery) {
+        fetchTweets(initialQuery)
+    }
+})
 </script>

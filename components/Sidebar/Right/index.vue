@@ -7,12 +7,8 @@
                     <SearchIcon @click="handleSearch" />
                 </div>
             </div>
-            <input 
-                type="text" 
-                v-model="search"
-                placeholder="Search tweets..."
-                class="flex items-center w-full pl-12 text-sm text-black font-normal dark:text-gray-100 bg-gray-200 border border-gray-200 rounded-full shadow dark:bg-dim-400 dark:border-dim-400 focus:bg-gray-100 dark:focus:bg-dim-900 focus:outline-none focus:border focus:border-blue-200 h-9"
-            >
+            <input type="text" v-model="search" placeholder="Search tweets..."
+                class="flex items-center w-full pl-12 text-sm text-black font-normal dark:text-gray-100 bg-gray-200 border border-gray-200 rounded-full shadow dark:bg-dim-400 dark:border-dim-400 focus:bg-gray-100 dark:focus:bg-dim-900 focus:outline-none focus:border focus:border-blue-200 h-9">
         </div>
 
         <!-- Preview card: what's happening -->
@@ -47,17 +43,58 @@
                 </div>
             </SidebarRightPreviewCardItem>
         </SidebarRightPreviewCard>
+
+        <footer>
+            <ul class="mx-2 my-4 text-xs text-gray-500">
+                <li class="inline-block mx-2">
+                    <a href="" class="hover:underline" @click.prevent="handleToggleDarkMode">Dark Mode</a>
+                </li>
+                <li class="inline-block mx-2">
+                    <a href="" class="hover:underline">Privacy Policy</a>
+                </li>
+                <li class="inline-block mx-2">
+                    <a href="" class="hover:underline">Cookie Policy</a>
+                </li>
+                <li class="inline-block mx-2">
+                    <a href="" class="hover:underline">Accessibility</a>
+                </li>
+                <li class="inline-block mx-2">
+                    <a href="" class="hover:underline">Ads Info</a>
+                </li>
+                <li class="inline-block mx-2">
+                    <a href="" class="hover:underline">More</a>
+                </li>
+                <li class="inline-block mx-2">
+                    &copy; 2024 Twitter, Inc.
+                </li>
+            </ul>
+        </footer>
     </div>
 </template>
 
 <script setup>
 import { SearchIcon } from '@heroicons/vue/outline'
 
+const emit = defineEmits(['toggleDarkMode'])
 const search = ref("")
+
+const handleSearch = () => {
+    const router = useRouter()
+    router.push({
+        path: "/search",
+        query: {
+            q: search.value
+        }
+    })
+}
+
+const handleToggleDarkMode = () => {
+    emit('toggleDarkMode')
+}
 
 const whatsHappeningItems = ref([
     {
-        title: 'SpaceX',
+        title: 'Dandadan',
         count: '17.2k Tweets'
     },
     {
@@ -65,7 +102,7 @@ const whatsHappeningItems = ref([
         count: '19.2k Tweets'
     },
     {
-        title: 'JJK',
+        title: 'HTTP Server in C',
         count: '9.3k Tweets'
     }
 ])
@@ -77,23 +114,14 @@ const whoToFollowItems = ref([
         image: 'https://picsum.photos/200/200'
     },
     {
-        name: 'Rocky',
-        handle: '@therealrocky',
+        name: 'Kendrick Lamar',
+        handle: '@kendricklamar',
         image: 'https://picsum.photos/200/200'
     },
     {
-        name: 'Oslo',
-        handle: '@oslothedog',
+        name: 'under',
+        handle: '@1underthesun_',
         image: 'https://picsum.photos/200/200'
     }
 ])
-
-const handleSearch = () => {
-    useRouter().push({
-        path: "/search",
-        query: {
-            q: search.value
-        }
-    })
-}
 </script>
