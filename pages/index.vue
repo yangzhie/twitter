@@ -7,7 +7,7 @@
             </Head>
 
             <div class="border-b" :class="twitterBorderColor">
-                <TweetForm :user="user" @on-success="handleFormSuccess(tweet)" />
+                <TweetForm :user="user" @on-success="handleFormSuccess" />
             </div>
 
             <TweetListFeed :tweets="homeTweets" />
@@ -41,9 +41,36 @@ const fetchTweets = async () => {
 
 onBeforeMount(fetchTweets)
 
-const handleFormSuccess = (tweet) => {
+const handleFormSuccess = (tweet) => {    
     navigateTo({
         path: `/status/${tweet.id}`
     })
 }
+
+// This redirects to the newly created tweet's page
+const router = useRouter()
+
+watch(() => router.currentRoute.value.params.id, (newId, oldId) => {
+    if (newId !== oldId) {
+        getTweet(newId) // Only fetch the tweet if the ID changes
+    }
+})
+
+const getTweet = async (tweetId) => {
+    if (!tweetId) return // Check if tweetId exists
+
+    loading.value = true
+    try {
+        const response = await getTweetById(tweetId)
+        tweet.value = response.tweet
+    } catch (error) {
+        console.log(error)
+    } finally {
+        loading.value = false
+    }
+}
+
+onBeforeMount(() => {
+    getTweet(router.currentRoute.value.params.id) // Get ID from the current route
+})
 </script>

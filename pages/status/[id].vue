@@ -1,8 +1,9 @@
 <template>
     <div>
         <MainSection title="Tweet" :loading="loading">
+
             <Head>
-                <Title></Title>
+                <Title :tweet="tweet">{{ tweet.id }}</Title>
             </Head>
 
             <TweetDetails :user="user" :tweet="tweet" />
@@ -32,7 +33,6 @@ const getTweet = async (tweetId) => {
     loading.value = true
     try {
         const response = await getTweetById(tweetId)
-        console.log(response)
         tweet.value = response.tweet
     } catch (error) {
         console.log(error)
