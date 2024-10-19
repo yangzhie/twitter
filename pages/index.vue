@@ -7,7 +7,7 @@
             </Head>
 
             <div class="border-b" :class="twitterBorderColor">
-                <TweetForm :user="user" />
+                <TweetForm :user="user" @on-success="handleFormSuccess(tweet)" />
             </div>
 
             <TweetListFeed :tweets="homeTweets" />
@@ -27,9 +27,8 @@ const { useAuthUser } = useAuth()
 
 const user = useAuthUser()
 
-onBeforeMount(async () => {
+const fetchTweets = async () => {
     loading.value = true
-
     try {
         const { tweets } = await getHomeTweets()
         homeTweets.value = tweets
@@ -38,5 +37,13 @@ onBeforeMount(async () => {
     } finally {
         loading.value = false
     }
-})
+}
+
+onBeforeMount(fetchTweets)
+
+const handleFormSuccess = (tweet) => {
+    navigateTo({
+        path: `/status/${tweet.id}`
+    })
+}
 </script>

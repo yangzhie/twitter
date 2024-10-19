@@ -26,8 +26,10 @@ export default defineEventHandler(async (event) => {
     }
     
     const replyTo = fields.replyTo
-    if (replyTo && replyTo !== "null") {
-        tweetData.replyToId = String(replyTo)
+
+    // Check if replyTo is valid and not an array containing "undefined" or a string "undefined"
+    if (replyTo && replyTo !== "null" && replyTo !== "undefined" && !(Array.isArray(replyTo) && replyTo[0] === "undefined")) {
+        tweetData.replyToId = String(Array.isArray(replyTo) ? replyTo[0] : replyTo); // Handle both array and string cases
     }
 
     const tweet = await createTweet(tweetData)

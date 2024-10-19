@@ -18,18 +18,21 @@ const { getTweetById } = useTweets()
 const { useAuthUser } = useAuth()
 const user = useAuthUser()
 
-// Watches when a reply to a tweet is posted and redirects
-watch(() => useRoute().fullPath, () => getTweet())
+const router = useRouter()
 
-// Is not a computed property
-const getTweetIdFromRoute = () => {
-    return useRoute().params.id
-}
+watch(() => router.currentRoute.value.params.id, (newId, oldId) => {
+    if (newId !== oldId) {
+        getTweet(newId) // Only fetch the tweet if the ID changes
+    }
+})
 
-const getTweet = async () => {
+const getTweet = async (tweetId) => {
+    if (!tweetId) return // Check if tweetId exists
+
     loading.value = true
     try {
-        const response = await getTweetById(getTweetIdFromRoute())
+        const response = await getTweetById(tweetId)
+        console.log(response)
         tweet.value = response.tweet
     } catch (error) {
         console.log(error)
@@ -39,6 +42,6 @@ const getTweet = async () => {
 }
 
 onBeforeMount(() => {
-    getTweet()
+    getTweet(router.currentRoute.value.params.id) // Get ID from the current route
 })
 </script>

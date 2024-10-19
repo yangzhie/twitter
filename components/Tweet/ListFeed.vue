@@ -10,7 +10,7 @@
             :class="[twitterBorderColor, defaultTransition]"
             v-for="tweet in props.tweets"
             :key="tweet.id"
-            @click.native="redirect(tweet)"
+            @click="redirect(tweet)"
         >
             <TweetItem :tweet="tweet" compact />
         </div>
