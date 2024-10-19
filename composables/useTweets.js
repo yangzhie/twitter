@@ -28,11 +28,12 @@ export default () => {
         })
     }
 
-    const getHomeTweets = () => {
+    const getHomeTweets = (params = {}) => {
         return new Promise(async (resolve, reject) => {
             try {
                 const response = await useFetchAPI('/api/tweets', {
-                    method: 'GET'
+                    method: 'GET',
+                    params
                 })
 
                 resolve(response)

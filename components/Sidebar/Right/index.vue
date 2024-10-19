@@ -1,5 +1,20 @@
 <template>
     <div class="flex flex-col">
+        <!-- Seach bar -->
+        <div class="relative m-2">
+            <div class=" absolute flex items-center h-full pl-4 text-gray-600 cursor-pointer">
+                <div class="w-6 h-6">
+                    <SearchIcon @click="handleSearch" />
+                </div>
+            </div>
+            <input 
+                type="text" 
+                v-model="search"
+                placeholder="Search tweets..."
+                class="flex items-center w-full pl-12 text-sm text-black font-normal dark:text-gray-100 bg-gray-200 border border-gray-200 rounded-full shadow dark:bg-dim-400 dark:border-dim-400 focus:bg-gray-100 dark:focus:bg-dim-900 focus:outline-none focus:border focus:border-blue-200 h-9"
+            >
+        </div>
+
         <!-- Preview card: what's happening -->
         <SidebarRightPreviewCard title="What's happening">
             <SidebarRightPreviewCardItem v-for="whatsHappening in whatsHappeningItems">
@@ -24,9 +39,8 @@
                     </div>
 
                     <div class="flex h-full">
-                        <button 
-                            class="px-4 py-2 font-bold text-xs text-white dark:text-black bg-black dark:bg-white rounded-full"
-                        >
+                        <button
+                            class="px-4 py-2 font-bold text-xs text-white dark:text-black bg-black dark:bg-white rounded-full">
                             Follow
                         </button>
                     </div>
@@ -37,6 +51,10 @@
 </template>
 
 <script setup>
+import { SearchIcon } from '@heroicons/vue/outline'
+
+const search = ref("")
+
 const whatsHappeningItems = ref([
     {
         title: 'SpaceX',
@@ -69,4 +87,13 @@ const whoToFollowItems = ref([
         image: 'https://picsum.photos/200/200'
     }
 ])
+
+const handleSearch = () => {
+    useRouter().push({
+        path: "/search",
+        query: {
+            q: search.value
+        }
+    })
+}
 </script>
