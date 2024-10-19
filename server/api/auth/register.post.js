@@ -1,11 +1,13 @@
 import { sendError } from "h3"
-import {createUser} from "../../db/users"
+import { createUser } from "../../db/users"
+import { genTokens, sendRefreshToken } from "~/server/utils/jwt"
+import { createRefreshToken } from "../../db/refreshTokens.js"
 
 export default defineEventHandler(async (event) => {
     // reads input from frontend
     const body = await readBody(event)
     // sepcifically these input
-    const { username, email, password, repeatPassword, name } = body
+    const { username, email, name, password, repeatPassword } = body
     
     // if one of these not present, throw error
     if (!username || !email || !password || !repeatPassword || !name) {
@@ -28,8 +30,20 @@ export default defineEventHandler(async (event) => {
     // passing said object to createUser
     const user = await createUser(userData)
 
+    // generate access + refresh tokens
+    const { accessToken, refreshToken } = genTokens(user)
+
+    await createRefreshToken({
+        token: refreshToken,
+        userId: user.id
+    })
+
+    sendRefreshToken(event, refreshToken)
+
     // returns body
     return {
-        body: user
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        body: user,
     }
 })

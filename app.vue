@@ -51,6 +51,7 @@ const handleToggleDarkMode = () => {
 
 const handleLogout = () => {
   logout()
+  window.location.reload()
 }
 
 const postTweetModal = usePostTweetModal()

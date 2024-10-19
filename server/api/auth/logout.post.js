@@ -5,6 +5,7 @@ export default defineEventHandler(async (event) => {
     try {
         const refreshToken = getCookie(event, 'refresh_token')
         await removeRefreshToken(refreshToken)
+        console.log("here")
     } catch (error) {
         console.log(error)
     }

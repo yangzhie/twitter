@@ -41,6 +41,30 @@ export default () => {
         })
     }
 
+    const register = ({ username, email, name, password, repeatPassword }) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const data = await $fetch('/api/auth/register', {
+                    method: 'POST',
+                    body: {
+                        username,
+                        email,
+                        name,
+                        password,
+                        repeatPassword,
+                    }
+                })
+
+                setToken(data.access_token)
+                setUser(data.user)
+
+                resolve(true)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
     const refreshToken = () => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -126,5 +150,6 @@ export default () => {
         initAuth,
         useAuthLoading,
         logout,
+        register
     }
 }
