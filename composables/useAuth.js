@@ -36,7 +36,8 @@ export default () => {
 
                 resolve(true)
             } catch (error) {
-                reject(error)
+                // Reject with the error so it can be handled in the calling function
+                reject(error.response.statusText)
             }
         })
     }

@@ -17,6 +17,10 @@
                 Login
             </UIButton>
 
+            <div v-if="errorMessage" class="mt-4 p-2 bg-red-100 text-red-600 rounded">
+                {{ errorMessage }}
+            </div>
+
             <div>
                 Don't have an account? <span @click="handleFormToggle" class="cursor-pointer underline">Register</span>
             </div>
@@ -33,6 +37,10 @@
                 Register
             </UIButton>
 
+            <div v-if="errorMessage" class="mt-4 p-2 bg-red-100 text-red-600 rounded">
+                {{ errorMessage }}
+            </div>
+
             <div>
                 Have an account already? <span @click="handleFormToggle" class="cursor-pointer underline">Login</span>
             </div>
@@ -42,9 +50,11 @@
 
 <script setup>
 const formMode = ref('login')
+const errorMessage = ref("")
 
 const handleFormToggle = () => {
     formMode.value = formMode.value === 'login' ? 'register' : 'login'
+    errorMessage.value = ""
 }
 
 // new object to unify inputs
@@ -72,7 +82,7 @@ async function handleLogin() {
 
         window.location.reload()
     } catch (error) {
-        console.log(error)
+        errorMessage.value = error
     } finally {
         data.loading = false
     }
@@ -94,7 +104,7 @@ async function handleRegister() {
 
         window.location.reload()
     } catch (error) {
-        console.log(error)
+        errorMessage.value = error.response.statusText
     } finally {
         data.loading = false
     }
